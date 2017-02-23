@@ -3,6 +3,10 @@ import json
 
 
 class JSONDecoder:
+    """
+    Middleware that translates a requets stream data into Python dict
+    """
+
     def process_resource(self, request, response, resource, params):
         request.json = {}
         content_type = request.content_type
@@ -30,5 +34,6 @@ class Token:
     """
 
     def process_request(self, request, response):
+        # Dummy token validation
         if not request.auth or request.auth != 'Token 34':
             raise falcon.HTTPUnauthorized()
