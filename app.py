@@ -1,10 +1,10 @@
 import falcon
 import json
 
-from resources import Index, auth, content
+from resources import Index, auth, content, admin
 from middleware import Token, JSONDecoder
 
-api = falcon.API(middleware=[Token(), JSONDecoder()])
+api = falcon.API(middleware=[JSONDecoder()])
 
 ## Routes
 api.add_route('/', Index())
@@ -14,3 +14,7 @@ api.add_route('/', Index())
 
 # Articles
 api.add_route('/articles/', content.ArticleList())
+
+# Admin interface
+api.add_route('/html/', admin.HTMLTest())
+
