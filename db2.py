@@ -1,4 +1,4 @@
-
+import sqlite3
 
 
 class Field:
@@ -104,11 +104,21 @@ class Model(object):
         raise NotImplementedError('')
 
 
-class ModelField(Model):
-    nome = CharField(max_length=255)
-    idade = IntegerField()
-    staff = BooleanField()
 
+class Database:
+
+    def __init__(self, db_name):
+        self.db_name = db_name
+        self.__connect_db()
+
+    def __connect_db(self):
+        self._connection = sqlite3.connect(self.db_name)
+        self._cursor = self._connection.cursor()
+
+    def create_table(self, model):
+        cur = self._cursor
+        model = model()
+        print(model.__dict__)
 
 
 class QuerySet:
@@ -122,3 +132,13 @@ class QuerySet:
 
     def get(self, **kwargs):
         pass
+
+
+class ModelField(Model):
+    nome = CharField(max_length=255)
+    idade = IntegerField()
+    staff = BooleanField()
+
+
+db = Database(':memory:')
+db.create_table(ModelField)
